@@ -1,4 +1,5 @@
 import User from "../models/users.js";
+import generateToken from "../utils/generateToken.js";
 
 const registerUser = async (req, res) => {
   try {
@@ -36,4 +37,38 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { registerUser };
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      res.status(200).json({
+        success: false,
+        user: "Invalid user",
+      });
+    }
+
+    const token = generateToken(user.id, user.role);
+
+    res.status(400).json({
+      success: true,
+      message: "User logged in successfull",
+      token,
+      user: {
+        id: user._id,
+        name: user.userName,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { registerUser, loginUser };
