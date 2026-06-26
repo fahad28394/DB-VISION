@@ -52,7 +52,7 @@ const loginUser = async (req, res) => {
 
     const token = generateToken(user.id, user.role);
 
-    res.status(400).json({
+    res.status(200).json({
       success: true,
       message: "User logged in successfull",
       token,
