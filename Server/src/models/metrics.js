@@ -26,7 +26,7 @@ const metricsSchema = new mongoose.Schema(
       max: 100,
     },
     activeConnection: {
-      typr: Number,
+      type: Number,
       required: true,
       min: 0,
     },
